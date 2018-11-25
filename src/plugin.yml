@@ -1,0 +1,5 @@
+name: PermissionsSystem
+main: de.seliba.permissions.PermissionsSystem
+version: 1.0-ALPHA
+api-version: 1.13
+author: Seliba
