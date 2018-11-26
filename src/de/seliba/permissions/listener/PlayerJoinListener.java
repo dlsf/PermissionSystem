@@ -9,8 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerJoinListener implements Listener {
 
@@ -23,11 +23,11 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if(!plugin.getDataHandler().existsPlayer(event.getPlayer().getUniqueId().toString())) {
-            Set<String> groups = new HashSet<>();
+            List<String> groups = new ArrayList<>();
             groups.add("default");
-            plugin.getDataHandler().insertPlayerData(event.getPlayer().getUniqueId().toString(), "", new HashSet<>(), groups);
+            plugin.getDataHandler().insertPlayerData(event.getPlayer().getUniqueId().toString(), "", new ArrayList<>(), groups);
         }
-        //TODO: Load permissions
+        plugin.getPermissionsAPI().reload();
     }
 
 }

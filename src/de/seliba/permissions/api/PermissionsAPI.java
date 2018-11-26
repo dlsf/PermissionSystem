@@ -9,8 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PermissionsAPI {
 
@@ -74,26 +74,26 @@ public class PermissionsAPI {
         return plugin.getDataHandler().getGroupPrefix(groupName);
     }
 
-    public Set<String> getPlayerPermissions(String uuid) {
+    public List<String> getPlayerPermissions(String uuid) {
         return plugin.getDataHandler().getPlayerPermissions(uuid);
     }
 
-    public Set<String> getGroupPermissions(String groupName) {
+    public List<String> getGroupPermissions(String groupName) {
         return plugin.getDataHandler().getGroupPermissions(groupName);
     }
 
-    public Set<String> getGroups() {
+    public List<String> getGroups() {
         return plugin.getDataHandler().getGroups();
     }
 
-    public Set<String> getPlayerGroups(String uuid) {
+    public List<String> getPlayerGroups(String uuid) {
         return plugin.getDataHandler().getPlayerGroups(uuid);
     }
 
     public void createDefaultGroups() {
         if(!existsGroup("default")) {
-            plugin.getDataHandler().insertGroupData("default", "", new HashSet<>());
-            plugin.getDataHandler().insertGroupData("admin", "", new HashSet<>());
+            plugin.getDataHandler().insertGroupData("default", "", new ArrayList<>());
+            plugin.getDataHandler().insertGroupData("admin", "", new ArrayList<>());
         }
     }
 
@@ -111,6 +111,10 @@ public class PermissionsAPI {
         });
     }
 
+    public void removeGroupData(String groupName, boolean yesIKnowWhatIAmDoing) {
+        plugin.getDataHandler().removeGroupData(groupName, yesIKnowWhatIAmDoing);
+    }
+
     public void addPermission(String uuid, String permission) {
         Player player = Bukkit.getServer().getPlayer(uuid);
         PermissionAttachment attachment = player.addAttachment(plugin);
@@ -120,7 +124,7 @@ public class PermissionsAPI {
 
     public void clearPermissions(String uuid) {
         Player player = Bukkit.getServer().getPlayer(uuid);
-        player.removeAttachment(plugin.getAttachments().get(uuid));
+        if(plugin.getAttachments().get(uuid) != null) player.removeAttachment(plugin.getAttachments().get(uuid));
     }
 
 }

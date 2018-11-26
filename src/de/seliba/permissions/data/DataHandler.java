@@ -4,13 +4,16 @@ package de.seliba.permissions.data;
 PermissionSystem 2.0 created by Seliba
 */
 
+import java.util.List;
 import java.util.Set;
 
 public interface DataHandler {
 
-    void insertPlayerData(String uuid, String prefix, Set<String> permissions, Set<String> groups);
+    void insertPlayerData(String uuid, String prefix, List<String> permissions, List<String> groups);
 
-    void insertGroupData(String groupName, String prefix, Set<String> permissions);
+    void insertGroupData(String groupName, String prefix, List<String> permissions);
+
+    void removeGroupData(String groupName, boolean yesIKnowWhatIAmDoing);
 
     boolean existsPlayer(String uuid);
 
@@ -36,12 +39,12 @@ public interface DataHandler {
 
     String getGroupPrefix(String groupName);
 
-    Set<String> getPlayerPermissions(String uuid);
+    List<String> getPlayerPermissions(String uuid);
 
-    Set<String> getGroupPermissions(String groupName);
+    List<String> getGroupPermissions(String groupName);
 
-    Set<String> getGroups();
+    List<String> getGroups();
 
-    Set<String> getPlayerGroups(String uuid);
+    List<String> getPlayerGroups(String uuid);
 
 }

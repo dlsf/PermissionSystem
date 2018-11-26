@@ -20,7 +20,7 @@ public class PermissionsSystem extends JavaPlugin {
 
     private DataHandler dataHandler;
     private Config cfg;
-    private HashMap<String,PermissionAttachment> attachments = new HashMap<>();
+    private HashMap<String,PermissionAttachment> attachments;
     private PermissionsSystem instance;
     private PermissionsAPI permissionsAPI;
 
@@ -31,6 +31,8 @@ public class PermissionsSystem extends JavaPlugin {
         cfg = new Config("permissions.yml", this);
         dataHandler = new FileHandler(cfg);
         permissionsAPI = new PermissionsAPI(this);
+        attachments = new HashMap<>();
+        permissionsAPI.createDefaultGroups();
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
     }
