@@ -17,7 +17,7 @@ public class FileHandler implements DataHandler {
 
     @Override
     public boolean existsGroup(String groupName) {
-        return data.getStringList("groups." + groupName + ".permissions") == null;
+        return data.getStringList("groups.names").contains(groupName);
     }
 
     @Override
@@ -29,9 +29,9 @@ public class FileHandler implements DataHandler {
     public void insertGroupData(String groupName, String prefix, List<String> permissions) {
         List<String> groupsList = getGroups();
         groupsList.add(groupName);
+        data.set("groups.names", groupsList);
         data.set("groups." + groupName + ".prefix", prefix);
         data.set("groups." + groupName + ".permissions", permissions);
-        data.set("groups.names", groupsList);
         data.save();
     }
 

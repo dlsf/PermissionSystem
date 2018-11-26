@@ -29,7 +29,7 @@ public class PlayerJoinListener implements Listener {
         }
         plugin.getPermissionsAPI().reload();
         //TODO: Remove Debug Code
-        plugin.getPermissionsAPI().addPlayerPermission(event.getPlayer().getUniqueId().toString(), "");
+        plugin.getPermissionsAPI().addPlayerPermission(event.getPlayer().getUniqueId().toString(), "system.menu");
     }
 
 }

@@ -34,7 +34,7 @@ public class PermissionsSystem extends JavaPlugin {
         attachments = new HashMap<>();
         permissionsAPI.createDefaultGroups();
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
+        //Bukkit.getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
     }
 
     @Override

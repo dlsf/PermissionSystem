@@ -5,12 +5,14 @@ PermissionSystem 2.0 created by Seliba
 */
 
 import de.seliba.permissions.PermissionsSystem;
+import de.seliba.permissions.utils.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PermissionsAPI {
 
@@ -116,15 +118,25 @@ public class PermissionsAPI {
     }
 
     public void addPermission(String uuid, String permission) {
-        Player player = Bukkit.getServer().getPlayer(uuid);
+        Player player = Bukkit.getPlayer(UUID.fromString(uuid));
         PermissionAttachment attachment = player.addAttachment(plugin);
         attachment.setPermission(permission, true);
         plugin.getAttachments().put(uuid, attachment);
     }
 
     public void clearPermissions(String uuid) {
-        Player player = Bukkit.getServer().getPlayer(uuid);
+        Player player = Bukkit.getServer().getPlayer(UUID.fromString(uuid));
+        System.out.println("Trigger");
+        if(plugin == null) System.out.println("1");
+        if(plugin.getAttachments() == null) System.out.println("2");
+        if(plugin.getAttachments().get(uuid) == null) System.out.println("3");
+        for(Player player1 : Bukkit.getOnlinePlayers()) {
+            System.out.println(player1.getUniqueId().toString().equals(uuid));
+        }
+        //Output: Trigger, true
         if(plugin.getAttachments().get(uuid) != null) player.removeAttachment(plugin.getAttachments().get(uuid));
+        plugin.getAttachments().remove(uuid);
+        //NullPointerException
     }
 
 }
