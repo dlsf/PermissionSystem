@@ -28,6 +28,8 @@ public class PlayerJoinListener implements Listener {
             plugin.getDataHandler().insertPlayerData(event.getPlayer().getUniqueId().toString(), "", new ArrayList<>(), groups);
         }
         plugin.getPermissionsAPI().reload();
+        //TODO: Remove Debug Code
+        plugin.getPermissionsAPI().addPlayerPermission(event.getPlayer().getUniqueId().toString(), "");
     }
 
 }
