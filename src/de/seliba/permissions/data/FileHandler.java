@@ -5,7 +5,6 @@ PermissionSystem 2.0 created by Seliba
 */
 
 import java.util.List;
-import java.util.Set;
 
 public class FileHandler implements DataHandler {
 
@@ -22,7 +21,7 @@ public class FileHandler implements DataHandler {
 
     @Override
     public boolean existsPlayer(String uuid) {
-        return data.getStringList("player." + uuid + ".permissions") == null;
+        return data.getStringList("player." + uuid + ".groups") != null;
     }
 
     @Override
@@ -45,7 +44,30 @@ public class FileHandler implements DataHandler {
 
     @Override
     public void removeGroupData(String groupName, boolean yesIKnowWhatIAmDoing) {
-        //TODO
+        if(yesIKnowWhatIAmDoing) {
+            List<String> groupsList = getGroups();
+            groupsList.remove(groupName);
+            data.set("groups.names", groupsList);
+            data.set("groups." + groupName + ".prefix", null);
+            data.set("groups." + groupName + ".permissions", null);
+            data.save();
+        }
+    }
+
+    @Override
+    public void addPlayerGroup(String uuid, String groupName) {
+        List<String> groupsList = getPlayerGroups(uuid);
+        groupsList.add(groupName);
+        data.set("player." + uuid + ".groups", groupsList);
+        data.save();
+    }
+
+    @Override
+    public void removePlayerGroup(String uuid, String groupName) {
+        List<String> groupsList = getPlayerGroups(uuid);
+        groupsList.remove(groupName);
+        data.set("player." + uuid + ".groups", groupsList);
+        data.save();
     }
 
     @Override

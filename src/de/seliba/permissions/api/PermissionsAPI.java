@@ -5,7 +5,6 @@ PermissionSystem 2.0 created by Seliba
 */
 
 import de.seliba.permissions.PermissionsSystem;
-import de.seliba.permissions.utils.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
@@ -28,6 +27,20 @@ public class PermissionsAPI {
 
     public boolean existsGroup(String groupName) {
         return plugin.getDataHandler().existsGroup(groupName);
+    }
+
+    public void addPlayerGroup(String uuid, String groupName) {
+        if(!getPlayerGroups(uuid).contains(groupName)) {
+            plugin.getDataHandler().addPlayerGroup(uuid, groupName);
+            reload();
+        }
+    }
+
+    public void removePlayerGroup(String uuid, String groupName) {
+        if(getPlayerGroups(uuid).contains(groupName)) {
+            plugin.getDataHandler().removePlayerGroup(uuid, groupName);
+            reload();
+        }
     }
 
     public void addPlayerPermission(String uuid, String permission) {
@@ -100,13 +113,17 @@ public class PermissionsAPI {
     }
 
     public void reload() {
+        //TODO: Remove debug messages
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
-            clearPermissions(player.getUniqueId().toString());
+            System.out.println("Player gefunden:" + player.getName());
             plugin.getDataHandler().getPlayerPermissions(player.getUniqueId().toString()).forEach(permission -> {
+                System.out.println("Permission gefunden:" + permission);
                 addPermission(player.getUniqueId().toString(), permission);
             });
             plugin.getDataHandler().getPlayerGroups(player.getUniqueId().toString()).forEach(group ->{
+                System.out.println("Gruppe gefunden:" + group);
                 plugin.getDataHandler().getGroupPermissions(group).forEach(permission -> {
+                    System.out.println("Grouppermission gefunden:" + permission);
                     addPermission(player.getUniqueId().toString(), permission);
                 });
             });
@@ -121,22 +138,6 @@ public class PermissionsAPI {
         Player player = Bukkit.getPlayer(UUID.fromString(uuid));
         PermissionAttachment attachment = player.addAttachment(plugin);
         attachment.setPermission(permission, true);
-        plugin.getAttachments().put(uuid, attachment);
-    }
-
-    public void clearPermissions(String uuid) {
-        Player player = Bukkit.getServer().getPlayer(UUID.fromString(uuid));
-        System.out.println("Trigger");
-        if(plugin == null) System.out.println("1");
-        if(plugin.getAttachments() == null) System.out.println("2");
-        if(plugin.getAttachments().get(uuid) == null) System.out.println("3");
-        for(Player player1 : Bukkit.getOnlinePlayers()) {
-            System.out.println(player1.getUniqueId().toString().equals(uuid));
-        }
-        //Output: Trigger, true
-        if(plugin.getAttachments().get(uuid) != null) player.removeAttachment(plugin.getAttachments().get(uuid));
-        plugin.getAttachments().remove(uuid);
-        //NullPointerException
     }
 
 }

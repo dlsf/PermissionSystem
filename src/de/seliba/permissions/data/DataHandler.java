@@ -5,7 +5,6 @@ PermissionSystem 2.0 created by Seliba
 */
 
 import java.util.List;
-import java.util.Set;
 
 public interface DataHandler {
 
@@ -34,6 +33,10 @@ public interface DataHandler {
     void setPlayerPrefix(String uuid, String prefix);
 
     void setGroupPrefix(String groupName, String prefix);
+
+    void addPlayerGroup(String uuid, String groupName);
+
+    void removePlayerGroup(String uuid, String groupName);
 
     String getPlayerPrefix(String uuid);
 

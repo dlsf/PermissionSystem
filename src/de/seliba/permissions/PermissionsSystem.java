@@ -9,18 +9,13 @@ import de.seliba.permissions.data.Config;
 import de.seliba.permissions.data.DataHandler;
 import de.seliba.permissions.data.FileHandler;
 import de.seliba.permissions.listener.PlayerJoinListener;
-import de.seliba.permissions.listener.PlayerQuitListener;
 import org.bukkit.Bukkit;
-import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.HashMap;
 
 public class PermissionsSystem extends JavaPlugin {
 
     private DataHandler dataHandler;
     private Config cfg;
-    private HashMap<String,PermissionAttachment> attachments;
     private PermissionsSystem instance;
     private PermissionsAPI permissionsAPI;
 
@@ -31,10 +26,8 @@ public class PermissionsSystem extends JavaPlugin {
         cfg = new Config("permissions.yml", this);
         dataHandler = new FileHandler(cfg);
         permissionsAPI = new PermissionsAPI(this);
-        attachments = new HashMap<>();
         permissionsAPI.createDefaultGroups();
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        //Bukkit.getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
     }
 
     @Override
@@ -49,10 +42,6 @@ public class PermissionsSystem extends JavaPlugin {
 
     public Config getCfg() {
         return cfg;
-    }
-
-    public HashMap<String, PermissionAttachment> getAttachments() {
-        return attachments;
     }
 
     public PermissionsAPI getPermissionsAPI() {
