@@ -114,7 +114,7 @@ public class FileHandler implements DataHandler {
 
     @Override
     public List<String> getGroupPermissions(String groupName) {
-        return data.getStringList("player." + groupName + ".permissions");
+        return data.getStringList("groups." + groupName + ".permissions");
     }
 
     @Override

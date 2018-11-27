@@ -22,18 +22,12 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        //TODO: Remove Debug Code
         if(!plugin.getDataHandler().existsPlayer(event.getPlayer().getUniqueId().toString())) {
-            System.out.println("Join Trigger 1");
             List<String> groups = new ArrayList<>();
             groups.add("default");
             plugin.getDataHandler().insertPlayerData(event.getPlayer().getUniqueId().toString(), "", new ArrayList<>(), groups);
         }
-        System.out.println("Join Trigger 2");
         plugin.getPermissionsAPI().reload();
-        plugin.getPermissionsAPI().addGroupPermission("admin", "worldedit.selection.pos");
-        //plugin.getPermissionsAPI().addPlayerGroup(event.getPlayer().getUniqueId().toString(), "admin");
-        //plugin.getPermissionsAPI().addPlayerPermission(event.getPlayer().getUniqueId().toString(), "system.menu");
     }
 
 }
