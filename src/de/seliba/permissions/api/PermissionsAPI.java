@@ -72,12 +72,10 @@ public class PermissionsAPI {
     }
 
     public void setPlayerPrefix(String uuid, String prefix) {
-        //TODO
         plugin.getDataHandler().setPlayerPrefix(uuid, prefix);
     }
 
     public void setGroupPrefix(String groupName, String prefix) {
-        //TODO
         plugin.getDataHandler().setGroupPrefix(groupName, prefix);
     }
 
@@ -107,31 +105,44 @@ public class PermissionsAPI {
 
     public void createDefaultGroups() {
         if(!existsGroup("default")) {
+            List<String> adminPermissions = new ArrayList<>();
+            adminPermissions.add("*");
             plugin.getDataHandler().insertGroupData("default", "", new ArrayList<>());
-            plugin.getDataHandler().insertGroupData("admin", "", new ArrayList<>());
+            plugin.getDataHandler().insertGroupData("admin", "", adminPermissions);
         }
     }
 
     public void reload() {
-        //TODO: Remove debug messages
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
-            System.out.println("Player gefunden:" + player.getName());
             plugin.getDataHandler().getPlayerPermissions(player.getUniqueId().toString()).forEach(permission -> {
-                System.out.println("Permission gefunden:" + permission);
                 addPermission(player.getUniqueId().toString(), permission);
             });
             plugin.getDataHandler().getPlayerGroups(player.getUniqueId().toString()).forEach(group ->{
-                System.out.println("Gruppe gefunden:" + group);
                 plugin.getDataHandler().getGroupPermissions(group).forEach(permission -> {
-                    System.out.println("Grouppermission gefunden:" + permission);
                     addPermission(player.getUniqueId().toString(), permission);
                 });
             });
         });
     }
 
+    public void createGroup(String groupName) {
+        plugin.getDataHandler().insertGroupData(groupName, "", new ArrayList<>());
+        reload();
+    }
+
+    public void createGroup(String groupName, String prefix) {
+        plugin.getDataHandler().insertGroupData(groupName, prefix, new ArrayList<>());
+        reload();
+    }
+
+    public void createGroup(String groupName, String prefix, List<String> permission) {
+        plugin.getDataHandler().insertGroupData(groupName, prefix, permission);
+        reload();
+    }
+
     public void removeGroupData(String groupName, boolean yesIKnowWhatIAmDoing) {
         plugin.getDataHandler().removeGroupData(groupName, yesIKnowWhatIAmDoing);
+        reload();
     }
 
     public void addPermission(String uuid, String permission) {
